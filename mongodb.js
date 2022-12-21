@@ -8,75 +8,33 @@ import { MongoClient, ObjectId} from "mongodb";
 const connectionURL = 'mongodb://127.0.0.1:27017';
 const databaseName = 'task-manager';
 
-const id = new ObjectId();
-console.log(id.id.length)
-console.log(id.toHexString().length);
-// console.log(id.getTimestamp())
-
 MongoClient.connect(connectionURL, { useNewUrlParser : true }, (error, client) => {
     if (error) {
         return console.log('Error Connecting')
     }
 
-    // console.log('Connected Successfully');
     const db = client.db(databaseName);
     
-    // db.collection('users').insertOne({
-    //     _id: id,
-    //     name : 'Anurag',
-    //     age : 27
-    // }, async (error, result) => {
-    //     if (error) {
-    //         return console.log('Unable to insert user');
-    //     }
-    //     console.log('Inserted Documents : ');
-
-    //     const insertedDocs = await db.collection('users').find({"_id": result.insertedId}).toArray();
-    //     console.log(insertedDocs);
-
+    // db.collection('users').findOne({ _id : new ObjectId("63a2e37b7c405d20ef3588f2") }, (error, user) => {
+    //     console.log(user);
     //     client.close();
-    // })
-
-    // db.collection('users').insertMany([
-    //     {
-    //         name : 'Jen',
-    //         age : 27
-    //     },
-    //     {
-    //         name : 'Gunther',
-    //         age : 28
-    //     }
-    // ], async (error, result) => {
-    //     if (error) {
-    //         return console.log('Unable to insert user');
-    //     }
-
-    //     console.log('Inserted Docs successfully.');
-
-    //     client.close()
     // });
 
-
-    // db.collection('tasks').insertMany([
-    //     {
-    //         description : 'Chant Hare Krishna Mahamantra',
-    //         completed: false
-    //     },
-    //     {
-    //         description : 'Complete GCCP campaign',
-    //         completed: false
-    //     },
-    //     {
-    //         description : 'Restart Node Project',
-    //         completed : true
-    //     }
-    // ], async (error, result) => {
-    //     if (error) {
-    //         return console.log('Unable to insert user');
-    //     }
-
-    //     console.log(result)
-
-    //     client.close()
+    // db.collection('users').find({ age : 27 }).toArray((error, users) => {
+    //     console.log(users);
     // })
+
+    // db.collection('users').find({ age : 27 }).count((error, count) => {
+    //     console.log(count);
+    // })
+
+    // TASK:
+    db.collection('tasks').findOne({ _id : new ObjectId("63a2dee888d3eb5295dbc6aa") }, (error, lastTask) => {
+        console.log(lastTask);
+    })
+
+    db.collection('tasks').find({ completed : false }).toArray((error, tasks) => {
+        console.log(tasks);
+        client.close();
+    })
 });
