@@ -15,26 +15,34 @@ MongoClient.connect(connectionURL, { useNewUrlParser : true }, (error, client) =
 
     const db = client.db(databaseName);
     
-    // db.collection('users').findOne({ _id : new ObjectId("63a2e37b7c405d20ef3588f2") }, (error, user) => {
-    //     console.log(user);
-    //     client.close();
+    // const updatePromise = db.collection('users').updateOne({
+    //     _id : new ObjectId("63a2e0b832171738ff68c4e8")
+    // }, {
+    //     $inc : {
+    //         age : 1
+    //     }
+    //     // $set : {
+    //     //     name : 'Aman'
+    //     // }
     // });
 
-    // db.collection('users').find({ age : 27 }).toArray((error, users) => {
-    //     console.log(users);
+    // updatePromise.then((result) => {
+    //     console.log(result);
+    // }).catch((error) => {
+    //     console.log(error);
+    // }).finally(() => {
+    //     client.close();
     // })
 
-    // db.collection('users').find({ age : 27 }).count((error, count) => {
-    //     console.log(count);
-    // })
-
-    // TASK:
-    db.collection('tasks').findOne({ _id : new ObjectId("63a2dee888d3eb5295dbc6aa") }, (error, lastTask) => {
-        console.log(lastTask);
-    })
-
-    db.collection('tasks').find({ completed : false }).toArray((error, tasks) => {
-        console.log(tasks);
-        client.close();
-    })
+    db.collection('tasks').updateMany({
+        completed : false
+    }, {
+        $set : {
+            completed : true
+        }
+    }).then((result) => {
+        console.log(result.modifiedCount);
+    }).catch((error) => {
+        console.log(error);
+    }).finally(() => client.close());
 });
