@@ -15,18 +15,9 @@ MongoClient.connect(connectionURL, { useNewUrlParser : true }, (error, client) =
 
     const db = client.db(databaseName);
     
-    // const updatePromise = db.collection('users').updateOne({
-    //     _id : new ObjectId("63a2e0b832171738ff68c4e8")
-    // }, {
-    //     $inc : {
-    //         age : 1
-    //     }
-    //     // $set : {
-    //     //     name : 'Aman'
-    //     // }
-    // });
-
-    // updatePromise.then((result) => {
+    // db.collection('users').deleteMany({
+    //     age: 27
+    // }).then((result) => {
     //     console.log(result);
     // }).catch((error) => {
     //     console.log(error);
@@ -34,15 +25,13 @@ MongoClient.connect(connectionURL, { useNewUrlParser : true }, (error, client) =
     //     client.close();
     // })
 
-    db.collection('tasks').updateMany({
-        completed : false
-    }, {
-        $set : {
-            completed : true
-        }
+    db.collection('tasks').deleteOne({
+        description : "Complete GCCP campaign"
     }).then((result) => {
-        console.log(result.modifiedCount);
+        console.log(result);
     }).catch((error) => {
         console.log(error);
-    }).finally(() => client.close());
+    }).finally(() => {
+        client.close();
+    })
 });
