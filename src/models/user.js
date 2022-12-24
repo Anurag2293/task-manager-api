@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const userSchema = new Schema({
     name : {
@@ -39,8 +40,24 @@ const userSchema = new Schema({
                 throw new Error('Password must not contain the word \'password\'')
             }
         }
-    }
+    },
+    tokens : [{
+        token : {
+            type : String,
+            required : true
+        }
+    }]
 });
+
+userSchema.methods.generateAuthToken = async function () {
+    const user = this;
+    const token = jwt.sign({ _id : user._id.toString() }, 'thisismynewtoken');
+
+    user.tokens = user.tokens.concat({ token });
+    await user.save();
+
+    return token;
+}
 
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email });
