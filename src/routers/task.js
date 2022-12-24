@@ -1,14 +1,19 @@
 import express from 'express';
 import Task from '../models/task.js';
+import auth from '../middleware/auth.js';
 
 const router = new express.Router();
 
-router.post('/tasks', async (req, res) => {
-    const task = new Task(req.body);
+router.post('/tasks', auth, async (req, res) => {
+    // const task = new Task(req.body);
+    const task = new Task({
+        ...req.body,
+        owner : req.user._id
+    })
 
     try {
-        const savedTask = await task.save();
-        res.status(201).send(savedTask);
+        await task.save();
+        res.status(201).send(task);
     } catch (error) {
         res.status(400).send(error);
     }

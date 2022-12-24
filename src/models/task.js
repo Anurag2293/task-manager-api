@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
 const Task = mongoose.model('Task', {
     description : {
@@ -9,6 +9,11 @@ const Task = mongoose.model('Task', {
     completed : {
         type : Boolean,
         default : false
+    },
+    owner : {
+        type : Schema.Types.ObjectId,
+        required : true,
+        ref : 'User'
     }
 })
 

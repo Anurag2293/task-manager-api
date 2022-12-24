@@ -4,6 +4,9 @@ import connectDB from './db/mongoose.js';
 import userRouter from './routers/user.js';
 import taskRouter from './routers/task.js';
 
+import Task from './models/task.js';
+import User from './models/user.js';
+
 connectDB();
 
 const app = express();
@@ -29,3 +32,15 @@ app.use(taskRouter);
 app.listen(port, () => {
     console.log('Process is running on port', port);
 });
+
+const main = async () => {
+    // const task = await Task.findById('63a7351b2ead30e07cd0d17a');
+    // await task.populate('owner');
+    // console.log(task.owner);
+
+    const user = await User.findById('63a73336fb460dcec60c2d54');
+    await user.populate('tasks');
+    console.log(user.tasks);
+}
+
+main();
