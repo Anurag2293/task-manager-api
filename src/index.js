@@ -29,14 +29,3 @@ app.use(taskRouter);
 app.listen(port, () => {
     console.log('Process is running on port', port);
 });
-
-const pet = {
-    name : 'Hal'
-}
-
-pet.toJSON = function () {
-    // console.log(this);
-    return {};
-}
-
-console.log(JSON.stringify(pet));
