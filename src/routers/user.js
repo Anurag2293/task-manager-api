@@ -92,6 +92,6 @@ router.delete('/users/me', auth, async (req, res) => {
     } catch (e) {
         res.status(500).send();
     }
-})
+});
 
 export default router;
