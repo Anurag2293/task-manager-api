@@ -30,12 +30,13 @@ app.listen(port, () => {
     console.log('Process is running on port', port);
 });
 
-const myFunction = async () => {
-    const token = jwt.sign({ _id : 'abc123' }, 'thisismynewtoken');
-    console.log(token);
-
-    const data = jwt.verify(token, 'thisismynewtoken', { expiresIn : '7 days' });
-    console.log(data);
+const pet = {
+    name : 'Hal'
 }
 
-// myFunction();
+pet.toJSON = function () {
+    // console.log(this);
+    return {};
+}
+
+console.log(JSON.stringify(pet));
