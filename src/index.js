@@ -12,18 +12,32 @@ connectDB();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// MIDDLEWARE
-// app.use((req, res, next) => {
-//     if (req.method === 'GET') {
-//         res.send('GET requests are disabled');
-//     } else {
-//         next();
-//     }
-// })
+import multer from 'multer';
 
-// app.use((req, res, next) => {
-//     res.status(503).send('Site under Maintenance. Please try again later');
-// })
+const upload = multer({
+    dest : 'images',
+    limits : {
+        fileSize : 100000,
+    },
+    fileFilter (req, file, cb) {
+        if (!file.originalname.match(/\.(doc|docx)$/)) {
+            return cb(new Error('Please upload a Word Document'));
+        }
+
+        cb(undefined, true);
+
+        // if (!file.originalname.endsWith('.pdf')) {
+        //     return cb(new Error('Please upload a PDF'));
+        // }
+        // cb(new Error('File must be a PDF'));
+        // cb(undefined, true);
+        // cb(undefined, false);
+    }
+});
+
+app.post('/upload', upload.single('upload'), (req, res) => {
+    res.send()
+});
 
 app.use(express.json());
 app.use(userRouter);
@@ -32,15 +46,3 @@ app.use(taskRouter);
 app.listen(port, () => {
     console.log('Process is running on port', port);
 });
-
-const main = async () => {
-    // const task = await Task.findById('63a7351b2ead30e07cd0d17a');
-    // await task.populate('owner');
-    // console.log(task.owner);
-
-    const user = await User.findById('63a73336fb460dcec60c2d54');
-    await user.populate('tasks');
-    console.log(user.tasks);
-}
-
-// main();
