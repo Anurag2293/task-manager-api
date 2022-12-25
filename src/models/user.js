@@ -48,6 +48,8 @@ const userSchema = new Schema({
             required : true
         }
     }]
+}, {
+    timestamps : true
 });
 
 // Setting Virtual Property
@@ -67,6 +69,7 @@ userSchema.methods.toJSON = function () {
     return userObject;
 }
 
+// methods --> on Instance
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
     const token = jwt.sign({ _id : user._id.toString() }, 'thisismynewtoken');
@@ -77,6 +80,7 @@ userSchema.methods.generateAuthToken = async function () {
     return token;
 }
 
+// statics --> On Model
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email });
 
