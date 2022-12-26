@@ -1,8 +1,6 @@
 import sgMail from '@sendgrid/mail';
 
-const sendgridAPIKey = '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';
-
-sgMail.setApiKey(sendgridAPIKey);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const msg = {
     to : 'anuragrdhote@gmail.com',
@@ -10,12 +8,6 @@ const msg = {
     subject : 'This is my new creation',
     text : 'I hope it reached you!'
 }
-
-// sgMail.send(msg).then(() => {
-//     console.log('Email sent');
-// }).catch((error) => {
-//     console.log(error);
-// })
 
 export const sendWelcomeEmail = async (email, name) => {
     const msg = {
